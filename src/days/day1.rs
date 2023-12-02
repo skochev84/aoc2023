@@ -7,7 +7,7 @@ pub fn trebuchet(file: &str) -> Vec<String> {
         .unwrap();
 
     let part2 = RegexBuilder::new(&format!(
-        r"^\D*?({numbers}).*({numbers})\D*$|{numbers}",
+        r"^\D*?({numbers}).*({numbers})\D*?$|{numbers}",
         numbers = r"one|two|three|four|five|six|seven|eight|nine|\d"
     ))
     .multi_line(true)
@@ -74,7 +74,6 @@ treb7uchet";
     #[test]
     fn test_part2() {
         let file = r"two1nine
-0
 eightwothree
 abcone2threexyz
 xtwone3four
