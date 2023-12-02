@@ -7,3 +7,8 @@ https://adventofcode.com/
 https://adventofcode.com/2023/day/1
 ### Part 1: 54632
 ### Part 2: 54019
+
+## --- Day 2: Cube Conundrum ---
+https://adventofcode.com/2023/day/2
+### Part 1: 2268
+### Part 2: 63542
