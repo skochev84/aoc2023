@@ -97,7 +97,7 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        let file = &read_to_string("../../parts_test.txt").unwrap();
+        let file = &read_to_string("./inputs/parts_test.txt").unwrap();
 
         let result = parts(file);
 
@@ -106,7 +106,7 @@ mod tests {
 
     #[test]
     fn test_part2() {
-        let file = &read_to_string("../../parts_test.txt").unwrap();
+        let file = &read_to_string("./inputs/parts_test.txt").unwrap();
 
         let result = parts(file);
 

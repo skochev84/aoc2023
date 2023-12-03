@@ -6,19 +6,22 @@ mod day3;
 mod temp;
 
 pub fn results() -> Result<(), Box<dyn Error>> {
-    print_day("0: Temp", temp::temp(&read_to_string("temp.txt")?));
+    print_day("0: Temp", temp::temp(&read_to_string("./inputs/temp.txt")?));
 
     print_day(
         "1: Trebuchet?!",
-        day1::trebuchet(&read_to_string("trebuchet.txt")?),
+        day1::trebuchet(&read_to_string("./inputs/trebuchet.txt")?),
     );
 
     print_day(
         "2: Cube Conundrum",
-        day2::cubes(&read_to_string("cubes.txt")?),
+        day2::cubes(&read_to_string("./inputs/cubes.txt")?),
     );
 
-    print_day("3: Gear Ratios", day3::parts(&read_to_string("parts.txt")?));
+    print_day(
+        "3: Gear Ratios",
+        day3::parts(&read_to_string("./inputs/parts.txt")?),
+    );
 
     Ok(())
 }
