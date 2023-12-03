@@ -12,3 +12,8 @@ https://adventofcode.com/2023/day/1
 https://adventofcode.com/2023/day/2
 ### Part 1: 2268
 ### Part 2: 63542
+
+## --- Day 3: Gear Ratios ---
+https://adventofcode.com/2023/day/3
+### Part 1: 546563
+### Part 2: 91031374
