@@ -3,6 +3,7 @@ use std::{error::Error, fs::read_to_string};
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 mod temp;
 
 pub fn results() -> Result<(), Box<dyn Error>> {
@@ -21,6 +22,11 @@ pub fn results() -> Result<(), Box<dyn Error>> {
     print_day(
         "3: Gear Ratios",
         day3::parts(&read_to_string("./inputs/parts.txt")?),
+    );
+
+    print_day(
+        "4: Scratchcards",
+        day4::cards(&read_to_string("./inputs/cards.txt")?),
     );
 
     Ok(())
