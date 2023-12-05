@@ -23,30 +23,28 @@ fn sum_game_ids(part: Regex, file: &str, max_colors: HashMap<&str, usize>) -> St
     game_ids.push(false);
     let mut game_id = 0;
 
-    part
-        .captures_iter(file)
-        .for_each(|c| {
-            let current_game_id = c.get(2).map_or("", |m| m.as_str());
-            if current_game_id.is_empty() {
-                let cube_count = c
-                    .get(3)
-                    .map_or("", |m| m.as_str())
-                    .parse::<usize>()
-                    .unwrap_or_default();
-                let cube_colour = c.get(4).map_or("", |m| m.as_str());
-                if cube_count > *max_colors.get(cube_colour).unwrap() {
-                    game_ids[game_id] = false;
-                }
-            } else {
-                game_id = current_game_id.parse::<usize>().unwrap_or(0);
-                game_ids.push(true);
+    part.captures_iter(file).for_each(|c| {
+        let current_game_id = c.get(2).map_or("", |m| m.as_str());
+        if current_game_id.is_empty() {
+            let cube_count = c
+                .get(3)
+                .map_or("", |m| m.as_str())
+                .parse::<usize>()
+                .unwrap_or_default();
+            let cube_colour = c.get(4).map_or("", |m| m.as_str());
+            if cube_count > *max_colors.get(cube_colour).unwrap() {
+                game_ids[game_id] = false;
             }
-        });
+        } else {
+            game_id = current_game_id.parse::<usize>().unwrap_or(0);
+            game_ids.push(true);
+        }
+    });
     let mut sum = 0;
 
     for (i, gid) in game_ids.into_iter().enumerate() {
         if gid {
-            sum = sum + i;
+            sum += i;
         }
     }
     sum.to_string()
@@ -61,35 +59,33 @@ fn sum_max_power(part: Regex, file: &str) -> String {
     let mut game_id = 0;
     let mut power_sum = 0;
 
-    part
-        .captures_iter(file)
-        .for_each(|c| {
-            let current_game_id = c.get(2).map_or("", |m| m.as_str());
-            if current_game_id.is_empty() {
-                let cube_count = c
-                    .get(3)
-                    .map_or("", |m| m.as_str())
-                    .parse::<usize>()
-                    .unwrap_or_default();
-                let cube_colour = c.get(4).map_or("", |m| m.as_str());
-                if cube_count > *max_colors.get(cube_colour).unwrap() {
-                    max_colors.insert(cube_colour, cube_count);
-                }
-            } else {
-                power_sum = power_sum + (max_colors.get("red").unwrap_or(&1)
-                    * max_colors.get("green").unwrap_or(&1)
-                    * max_colors.get("blue").unwrap_or(&1));
-                game_id = current_game_id.parse::<usize>().unwrap_or(0);
-
-                max_colors.insert("red", 1);
-                max_colors.insert("green", 1);
-                max_colors.insert("blue", 1);
+    part.captures_iter(file).for_each(|c| {
+        let current_game_id = c.get(2).map_or("", |m| m.as_str());
+        if current_game_id.is_empty() {
+            let cube_count = c
+                .get(3)
+                .map_or("", |m| m.as_str())
+                .parse::<usize>()
+                .unwrap_or_default();
+            let cube_colour = c.get(4).map_or("", |m| m.as_str());
+            if cube_count > *max_colors.get(cube_colour).unwrap() {
+                max_colors.insert(cube_colour, cube_count);
             }
-        });
+        } else {
+            power_sum += max_colors.get("red").unwrap_or(&1)
+                * max_colors.get("green").unwrap_or(&1)
+                * max_colors.get("blue").unwrap_or(&1);
+            game_id = current_game_id.parse::<usize>().unwrap_or(0);
 
-    power_sum = power_sum + (max_colors.get("red").unwrap_or(&1)
+            max_colors.insert("red", 1);
+            max_colors.insert("green", 1);
+            max_colors.insert("blue", 1);
+        }
+    });
+
+    power_sum += max_colors.get("red").unwrap_or(&1)
         * max_colors.get("green").unwrap_or(&1)
-        * max_colors.get("blue").unwrap_or(&1));
+        * max_colors.get("blue").unwrap_or(&1);
 
     power_sum.to_string()
 }

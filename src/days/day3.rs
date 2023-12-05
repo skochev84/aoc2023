@@ -18,11 +18,9 @@ pub fn parts(file: &str) -> Vec<String> {
             let mut end = num.end();
             let number = num.as_str().parse::<i32>().unwrap_or(0);
 
-            if start > 0 {
-                start = start - 1
-            }
+            start = start.saturating_sub(1);
             if end < file_trim.len() {
-                end = end + 1
+                end += 1
             }
 
             if start > line_length {
@@ -69,7 +67,7 @@ pub fn parts(file: &str) -> Vec<String> {
 }
 
 fn is_part_or_gear(
-    file_trim: &String,
+    file_trim: &str,
     gears: &mut HashMap<usize, i32>,
     num: i32,
     new_start_length: usize,

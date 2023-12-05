@@ -35,3 +35,11 @@ https://adventofcode.com/2023/day/4
 ### Part 1: 32609
 
 ### Part 2: 14624680
+
+## --- Day 5: If You Give A Seed A Fertilizer ---
+
+https://adventofcode.com/2023/day/5
+
+### Part 1: 3374647
+
+### Part 2:

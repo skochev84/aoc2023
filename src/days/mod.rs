@@ -4,6 +4,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 mod temp;
 
 pub fn results() -> Result<(), Box<dyn Error>> {
@@ -27,6 +28,11 @@ pub fn results() -> Result<(), Box<dyn Error>> {
     print_day(
         "4: Scratchcards",
         day4::cards(&read_to_string("./inputs/cards.txt")?),
+    );
+
+    print_day(
+        "5: If You Give A Seed A Fertilizer",
+        day5::seeds(&read_to_string("./inputs/seeds.txt")?),
     );
 
     Ok(())
