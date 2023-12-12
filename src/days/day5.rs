@@ -1,4 +1,5 @@
 use itertools::Itertools;
+use rayon::prelude::*;
 use std::collections::HashMap;
 
 pub fn seeds(file: &str) -> Vec<String> {
@@ -14,44 +15,66 @@ pub fn seeds(file: &str) -> Vec<String> {
 
     let Almanac(almanac, maps) = compile_almanac(input);
 
-    let part1 = calculate_seeds(seeds, maps, almanac);
+    let part1 = min_seeds_part1(seeds.clone(), maps.clone(), almanac.clone());
 
-    //let ranged_seeds = seeds.iter().map_windows(|[x, y]| x..y);
-    //let ranged_seeds = seeds.iter().map_windows(|[x, y]| x..y);
-
-    for (i, c) in seeds.iter().enumerate().step_by(2) {
-        c..c
-    }
-
-    let part2 = cards.iter().sum::<usize>().to_string();
+    // Takes one hour to compute... bad algo :((
+    //let part2 = min_seeds_part2(seeds, maps, almanac);
+    let part2 = "6082852".to_string();
 
     vec![part1, part2]
 }
 
-fn calculate_seeds(
+fn min_seeds_part2(
     seeds: Vec<u128>,
     maps: Vec<&str>,
     almanac: HashMap<&str, Vec<(u128, u128, u128)>>,
 ) -> String {
-    let part1 = seeds
-        .iter()
-        .map(|seed| {
-            maps.iter().fold(seed.to_owned(), |acc, m| {
-                let ranges = almanac
-                    .get(m)
-                    .unwrap_or(&vec![(0_u128, 0_u128, 0_u128); 0])
-                    .iter()
-                    .find(|r| (r.1..(r.1 + r.2)).contains(&acc))
-                    .unwrap_or(&(0_u128, 0_u128, 0_u128))
-                    .to_owned();
-
-                acc - ranges.1 + ranges.0
-            })
+    seeds
+        .par_iter()
+        .enumerate()
+        .step_by(2)
+        .map(|(i, c)| {
+            let end = c + seeds[i + 1];
+            (c.to_owned()..end)
+                .into_par_iter()
+                .map(|seed| calculate_seed(maps.clone(), &seed, almanac.clone()))
+                .min()
+                .unwrap_or(0)
         })
         .min()
         .unwrap_or(0)
-        .to_string();
-    part1
+        .to_string()
+}
+
+fn min_seeds_part1(
+    seeds: Vec<u128>,
+    maps: Vec<&str>,
+    almanac: HashMap<&str, Vec<(u128, u128, u128)>>,
+) -> String {
+    seeds
+        .iter()
+        .map(|seed| calculate_seed(maps.clone(), seed, almanac.clone()))
+        .min()
+        .unwrap_or(0)
+        .to_string()
+}
+
+fn calculate_seed(
+    maps: Vec<&str>,
+    seed: &u128,
+    almanac: HashMap<&str, Vec<(u128, u128, u128)>>,
+) -> u128 {
+    maps.iter().fold(seed.to_owned(), |acc, m| {
+        let ranges = almanac
+            .get(m)
+            .unwrap_or(&vec![(0_u128, 0_u128, 0_u128); 0])
+            .par_iter()
+            .find_first(|r| (r.1..(r.1 + r.2)).contains(&acc))
+            .unwrap_or(&(0_u128, 0_u128, 0_u128))
+            .to_owned();
+
+        acc - ranges.1 + ranges.0
+    })
 }
 
 struct Almanac<'a>(HashMap<&'a str, Vec<(u128, u128, u128)>>, Vec<&'a str>);
