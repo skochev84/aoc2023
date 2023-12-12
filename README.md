@@ -42,4 +42,12 @@ https://adventofcode.com/2023/day/5
 
 ### Part 1: 3374647
 
-### Part 2:
+### Part 2: 6082852
+
+## --- Day 6: Wait For It ---
+
+https://adventofcode.com/2023/day/6
+
+### Part 1: 2756160
+
+### Part 2: 34788142
